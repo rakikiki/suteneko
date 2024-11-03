@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>‚·‚Ä‚Ë‚±‹Î‘Ó</title>
+<title>ã™ã¦ã­ã“å‹¤æ€ </title>
 <style>
 table, tr, td {
   border: 1px solid gray;
@@ -15,16 +15,16 @@ tr:nth-child(odd) {
 
 const kintaiRule = [true, true, false, true, false]
 const epochdate = new Date(1970, 0, 1)
-const daysOfWeekLabel = ['“ú', 'Œ', '‰Î', '…', '–Ø', '‹à', '“y']
+const daysOfWeekLabel = ['æ—¥', 'æœˆ', 'ç«', 'æ°´', 'æœ¨', 'é‡‘', 'åœŸ']
 
 function createSelectOption(inYear, inMonth) {
-  // ¡“ú‚Ì“ú•t‚Ì1ƒ•Œ‘O‚©‚ç1”NŒã‚Ü‚Å
+  // ä»Šæ—¥ã®æ—¥ä»˜ã®1ãƒµæœˆå‰ã‹ã‚‰1å¹´å¾Œã¾ã§
   for (let i = -1; i< 12; i++) {
     const d = new Date(inYear, inMonth + i, 1)
     const year = d.getFullYear()
     const month = d.getMonth()
     const newOption = document.createElement('option')
-    newOption.text = year + '”N' + String(month+1).padStart(2, '0') + 'Œ'
+    newOption.text = year + 'å¹´' + String(month+1).padStart(2, '0') + 'æœˆ'
     newOption.value = year + '-' + month
     newOption.selected = (i == 0)
     document.getElementById('chooseMonth').add(newOption)
@@ -53,12 +53,12 @@ function getElapsedDays(d) {
 }
 
 function createTable(year, month, tableId) {
-  // ÅI“ú(=—‚Œ‚Ì0“ú)
+  // æœ€çµ‚æ—¥(=ç¿Œæœˆã®0æ—¥)
   const lastDate = new Date(year, month + 1, 0).getDate()
-  // ‚»‚ÌŒ‚Ì1“ú‚Í‹Î‘Óƒ‹[ƒ‹‚Ì‰½“ú–Ú‚©
+  // ãã®æœˆã®1æ—¥ã¯å‹¤æ€ ãƒ«ãƒ¼ãƒ«ã®ä½•æ—¥ç›®ã‹
   const firstDay = getElapsedDays(new Date(year, month, 1)) % kintaiRule.length
 
-  document.getElementById('monthLabel').text = year + '”N' + (month+1) + 'Œ'
+  document.getElementById('monthLabel').text = year + 'å¹´' + (month+1) + 'æœˆ'
   const tableElm = document.getElementById('monthTable')
   tableElm.innerHTML = ''
 
@@ -72,7 +72,7 @@ function createTable(year, month, tableId) {
     tr.appendChild(restTd)
     const daysOfWeek = new Date(year, month, i).getDay()
     dayTd.textContent = year + '-' + String(month+1).padStart(2, '0') + '-' + String(i).padStart(2, '0') + '(' + daysOfWeekLabel[daysOfWeek] + ')'
-    restTd.textContent = isRestDay ? '›' : '~'
+    restTd.textContent = isRestDay ? 'â—‹' : 'Ã—'
     // console.log(year + '-' + (month+1) + '-' + i + ': ' + isRestDay)
   }
   
@@ -84,7 +84,7 @@ function createTable(year, month, tableId) {
 </head>
 <body onload="main()">
 <div>
-<label for="chooseMonth">Œ‚ğ‘I‚ñ‚Å‚­‚¾‚³‚¢:</label><select id="chooseMonth">
+<label for="chooseMonth">æœˆã‚’é¸ã‚“ã§ãã ã•ã„:</label><select id="chooseMonth">
 </select>
 <div>
 <br>
