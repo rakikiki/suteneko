@@ -1,0 +1,100 @@
+<html>
+<head>
+<title>すてねこ勤怠</title>
+<style>
+table, tr, td {
+  border: 1px solid gray;
+  border-collapse: collapse;
+  padding: 2px 5px;
+}
+tr:nth-child(odd) {
+  background-color: #eeeeee;
+}
+</style>
+<script>
+
+const kintaiRule = [true, true, false, true, false]
+const epochdate = new Date(1970, 0, 1)
+const daysOfWeekLabel = ['日', '月', '火', '水', '木', '金', '土']
+
+function createSelectOption(inYear, inMonth) {
+  // 今日の日付の1ヵ月前から1年後まで
+  for (let i = -1; i< 12; i++) {
+    const d = new Date(inYear, inMonth + i, 1)
+    const year = d.getFullYear()
+    const month = d.getMonth()
+    const newOption = document.createElement('option')
+    newOption.text = year + '年' + String(month+1).padStart(2, '0') + '月'
+    newOption.value = year + '-' + month
+    newOption.selected = (i == 0)
+    document.getElementById('chooseMonth').add(newOption)
+  }
+}
+function main() {
+
+  let today = new Date()
+  const year = today.getFullYear()
+  const month = today.getMonth()
+  createSelectOption(year, month)
+  
+  document.getElementById('chooseMonth').addEventListener('change', function() {
+    const selectedValue = this.options[this.selectedIndex].value
+    const targetYear = selectedValue.split('-')[0]
+    const targetMonth = selectedValue.split('-')[1]
+    createTable(Number(targetYear), Number(targetMonth))
+  })
+  
+  createTable(year, month)
+}
+
+
+function getElapsedDays(d) {
+  return (d - epochdate) / 86400000
+}
+
+function createTable(year, month, tableId) {
+  // 最終日(=翌月の0日)
+  const lastDate = new Date(year, month + 1, 0).getDate()
+  // その月の1日は勤怠ルールの何日目か
+  const firstDay = getElapsedDays(new Date(year, month, 1)) % kintaiRule.length
+
+  document.getElementById('monthLabel').text = year + '年' + (month+1) + '月'
+  const tableElm = document.getElementById('monthTable')
+  tableElm.innerHTML = ''
+
+  for (let i = 1; i <= lastDate; i++) {
+    const isRestDay = kintaiRule[(firstDay + (i - 1)) % kintaiRule.length]
+    const tr = document.createElement('tr')
+    const dayTd = document.createElement('td')
+    const restTd = document.createElement('td')
+    tableElm.appendChild(tr)
+    tr.appendChild(dayTd)
+    tr.appendChild(restTd)
+    const daysOfWeek = new Date(year, month, i).getDay()
+    dayTd.textContent = year + '-' + String(month+1).padStart(2, '0') + '-' + String(i).padStart(2, '0') + '(' + daysOfWeekLabel[daysOfWeek] + ')'
+    restTd.textContent = isRestDay ? '○' : '×'
+    // console.log(year + '-' + (month+1) + '-' + i + ': ' + isRestDay)
+  }
+  
+  
+}
+
+
+</script>
+</head>
+<body onload="main()">
+<div>
+<label for="chooseMonth">月を選んでください:</label><select id="chooseMonth">
+</select>
+<div>
+<br>
+<div>
+<span id="monthLabel">
+<table id="monthTable"></table>
+</div>
+<div>
+
+
+
+</body>
+</html>
