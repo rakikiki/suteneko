@@ -10,6 +10,14 @@ table, tr, td {
 tr:nth-child(odd) {
   background-color: #eeeeee;
 }
+tr.doyoubi {
+  color: blue;
+}
+tr.nitiyoubi {
+  color: red;
+}
+tr.kayoubi {
+}
 </style>
 <script>
 
@@ -71,6 +79,16 @@ function createTable(year, month, tableId) {
     tr.appendChild(dayTd)
     tr.appendChild(restTd)
     const daysOfWeek = new Date(year, month, i).getDay()
+    if (daysOfWeek === 2) {
+      // 火曜日
+      tr.classList.add('kayoubi')
+    } else if (daysOfWeek === 5) {
+      // 土曜日
+      tr.classList.add('doyoubi')
+    } else if (daysOfWeek === 6) {
+      // 日曜日
+      tr.classList.add('nitiyoubi')
+    }
     dayTd.textContent = year + '-' + String(month+1).padStart(2, '0') + '-' + String(i).padStart(2, '0') + '(' + daysOfWeekLabel[daysOfWeek] + ')'
     restTd.textContent = isRestDay ? '○' : '×'
     // console.log(year + '-' + (month+1) + '-' + i + ': ' + isRestDay)
